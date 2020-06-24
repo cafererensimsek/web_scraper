@@ -4,30 +4,25 @@ import pandas as pd
 
 
 
-input_computer = input("Are you searching for a laptop? (y/n)").capitalize()
 cimri = input("Enter an item to search at cimri.com: ")
 
-
+""" input_computer = input("Are you searching for a laptop? (y/n): ").capitalize()
 if input_computer.capitalize() == 'Y':
     is_computer = True
 elif input_computer.capitalize() == 'N':
     is_computer = False
-else: 
+else:
+    print('Invalid input, exiting...')
     exit()
+ 
 
 
-print(is_computer)
-
-resultList = []
-result = {}
-key = 0
 
 def getComputerSpecs(link):
-    
 
     soup2 = BeautifulSoup(requests.get(link).content, 'lxml')
 
-    itemSpecs = soup2.find('div', {'class': 'specs'})
+    itemSpecs = soup2.find('div', {'class': 's10v53f3-0 bfgzQt'})
 
     screenResolution = itemSpecs.find(
         'span', {'class', 's10v53f3-6 geozbR'}).getText()
@@ -48,10 +43,10 @@ def getComputerSpecs(link):
     return screenResolution, coreNumber, processorFrequency, processorModel, ramGb, ramMhz, os, panelType
 
 
-
-
-def scrapeCimriLaptop(cimri = cimri):
-
+def scrapeCimriLaptop(cimri):
+    resultList = []
+    result = {}
+    key = 0
 
     try:
         pageNumber = int(BeautifulSoup(requests.get("https://www.cimri.com/arama?page=1&sort=rank%2Cdesc&q=" +
@@ -67,22 +62,27 @@ def scrapeCimriLaptop(cimri = cimri):
             'div', {'id': 'cimri-product'})
         for item in items:
             try:
-                links = "https://www.cimri.com" + item.find('a', {'class': 'link-detail'})['href']
-                price = item.find('a', {'class': 's14oa9nh-0 fFCyge'}).get_text('!').partition('!')[2]
+                link = "https://www.cimri.com" + \
+                    item.find('a', {'class': 'link-detail'})['href']
+                price = item.find(
+                    'a', {'class': 's14oa9nh-0 fFCyge'}).get_text('!').partition('!')[2]
                 title = item.find('h3', {'class': 'product-title'})['title']
                 specs = getComputerSpecs(link)
-                result[key] = {"title": title, "price": price,"link": links, "specs": specs}
+                result[key] = {"title": title, "price": price,
+                               "link": link, "specs": specs}
                 resultList.append(result[key])
                 key += 1
-            except Exception:
+            except Exception as e:
+                print(str(e))
                 pass
 
     return resultList
+"""
 
-
-def scrapeCimri(cimri = cimri):
-
-
+def scrapeCimri(cimri):
+    resultList = []
+    result = {}
+    key = 0
 
     try:
         pageNumber = int(BeautifulSoup(requests.get("https://www.cimri.com/arama?page=1&sort=rank%2Cdesc&q=" +
@@ -91,25 +91,28 @@ def scrapeCimri(cimri = cimri):
         pageNumber = 1
 
     for page in range(1, pageNumber):
-        link = "https://www.cimri.com/arama?page=" + str(page) + "&sort=rank%2Cdesc&q=" + cimri
+        link = "https://www.cimri.com/arama?page=" + \
+            str(page) + "&sort=rank%2Cdesc&q=" + cimri
 
         items = BeautifulSoup(requests.get(link).content, 'lxml').findAll(
             'div', {'id': 'cimri-product'})
         for item in items:
             try:
-                links = "https://www.cimri.com" + item.find('a', {'class': 'link-detail'})['href']
-                price = item.find('a', {'class': 's14oa9nh-0 fFCyge'}).get_text('!').partition('!')[2]
+                link = "https://www.cimri.com" + \
+                    item.find('a', {'class': 'link-detail'})['href']
+                price = item.find(
+                    'a', {'class': 's14oa9nh-0 fFCyge'}).get_text('!').partition('!')[2]
                 title = item.find('h3', {'class': 'product-title'})['title']
-                result[key] = {"title": title, "price": price, "link": links}
+                result[key] = {"title": title, "price": price, "link": link}
                 resultList.append(result[key])
                 key += 1
-            except Exception:
+            except Exception as e:
+                print(str(e))
                 pass
 
     return resultList
 
-
-""" def excel_writer(res):
+def excel_writer(res):
     
 
     defaultColumnNames = ["Titles", "Prices", "Links"]
@@ -133,11 +136,14 @@ def scrapeCimri(cimri = cimri):
             len).max(), len(str(series.name))))
         worksheet.set_column(idx, idx, max_len)  # set column width
     writer.save()
+
+
+
+""" if is_computer:
+    print(scrapeCimriLaptop(cimri = cimri))
+else:
+    print(scrapeCimri(cimri = cimri))
  """
 
 
-
-if is_computer:
-    print(scrapeCimriLaptop())
-else:
-    print(scrapeCimri())
+excel_writer(scrapeCimri(cimri = cimri))
