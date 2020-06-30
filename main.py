@@ -7,14 +7,16 @@ import pandas as pd
 cimri = input("Enter an item to search at cimri.com: ")
 
 """ input_computer = input("Are you searching for a laptop? (y/n): ").capitalize()
-if input_computer.capitalize() == 'Y':
-    is_computer = True
-elif input_computer.capitalize() == 'N':
-    is_computer = False
-else:
-    print('Invalid input, exiting...')
-    exit()
- 
+
+is_computer = None
+
+while is_computer == None:
+    if input_computer == 'Y':
+        is_computer = True
+    elif input_computer == 'N':
+        is_computer = False
+    else:
+        print('Invalid input!')
 
 
 
@@ -79,7 +81,7 @@ def scrapeCimriLaptop(cimri):
     return resultList
 """
 
-def scrapeCimri(cimri):
+def scrape(cimri):
     resultList = []
     result = {}
     key = 0
@@ -112,7 +114,7 @@ def scrapeCimri(cimri):
 
     return resultList
 
-def excel_writer(res):
+def writeres):
     
 
     defaultColumnNames = ["Titles", "Prices", "Links"]
@@ -146,4 +148,4 @@ else:
  """
 
 
-excel_writer(scrapeCimri(cimri = cimri))
+write(scrape(cimri = cimri))
