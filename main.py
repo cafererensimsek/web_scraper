@@ -92,7 +92,7 @@ def scrape(cimri):
     except:
         pageNumber = 1
 
-    for page in tqdm.trange(1, pageNumber):tele
+    for page in tqdm.trange(1, pageNumber):
         link = "https://www.cimri.com/arama?page=" + \
             str(page) + "&sort=rank%2Cdesc&q=" + cimri
 
