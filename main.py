@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
-
+import tqdm
 
 
 cimri = input("Enter an item to search at cimri.com: ")
@@ -92,7 +92,7 @@ def scrape(cimri):
     except:
         pageNumber = 1
 
-    for page in range(1, pageNumber):
+    for page in tqdm.trange(1, pageNumber):tele
         link = "https://www.cimri.com/arama?page=" + \
             str(page) + "&sort=rank%2Cdesc&q=" + cimri
 
@@ -108,13 +108,12 @@ def scrape(cimri):
                 result[key] = {"title": title, "price": price, "link": link}
                 resultList.append(result[key])
                 key += 1
-            except Exception as e:
-                print(str(e))
+            except:
                 pass
 
     return resultList
 
-def writeres):
+def write(res):
     
 
     defaultColumnNames = ["Titles", "Prices", "Links"]
