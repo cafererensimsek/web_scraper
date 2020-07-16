@@ -92,7 +92,8 @@ def scrape(cimri):
     except:
         pageNumber = 1
 
-    for page in tqdm.trange(1, pageNumber):
+
+    for page in tqdm.trange(pageNumber):
         link = "https://www.cimri.com/arama?page=" + \
             str(page) + "&sort=rank%2Cdesc&q=" + cimri
 
@@ -141,10 +142,9 @@ def write(res):
 
 
 """ if is_computer:
-    print(scrapeCimriLaptop(cimri = cimri))
+    print(scrapeCimriLaptop(cimri))
 else:
-    print(scrapeCimri(cimri = cimri))
+    print(scrapeCimri(cimri))
  """
 
-
-write(scrape(cimri = cimri))
+print(scrape(cimri))
