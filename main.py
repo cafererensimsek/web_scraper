@@ -118,7 +118,7 @@ def write(res):
     
 
     defaultColumnNames = ["Titles", "Prices", "Links"]
-    df = pd.DataFrame(res).T.rename_axis('Link').reset_index()
+    df = pd.DataFrame(res)
 
     if len(df.columns) == 3:
         df.columns = defaultColumnNames
@@ -147,4 +147,4 @@ else:
     print(scrapeCimri(cimri))
  """
 
-print(scrape(cimri))
+write(scrape(cimri))
